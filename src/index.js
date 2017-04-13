@@ -1,11 +1,43 @@
-$('#open-close').on('click', ()=>{
-  $('.garage-door').toggleClass('open')
+
+const loadItems = () => {
+  fetch('/api/v1/garage', {
+    method: 'GET'
+  })
+    .then(res => res.json())
+    .then(items => renderItems(items));
+}
+
+$('document').ready(loadItems);
+
+const renderItems = (items) => {
+  $('.item').remove();
+  items.forEach(item => {
+    console.log(item)
+    $('#the-list').append(`
+      <li class='item' id=${item.id}>${item.name}</li>`
+    )
+  })
+}
+
+const addItem = (itemAttributes) => {
+  fetch(`/api/v1/garage/`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(itemAttributes)
+  })
+    .then(res => res.json())
+    .then(items => {
+      renderItems(items);
+    })
+}
+
+$('#put-it-in').on('click', (e)=>{
+  e.preventDefault();
+  const name = $('#new-name').val()
+  const reason = $('#new-reason').val()
+  const cleanliness = $('#new-cleanliness').val()
+  addItem({name, reason, cleanliness})
 })
-
-
-//GET ALL THE THINGS
-
-//MAP THEM THINGS TO THE GARAGE
 
 //ADD ON CLICK FUNCTION TO EACH ITEM
 
@@ -15,4 +47,6 @@ $('#open-close').on('click', ()=>{
 
 //ADD SORT FUNCTIONS
 
-//
+$('#open-close').on('click', ()=>{
+  $('.garage-door').toggleClass('open')
+})

@@ -7,25 +7,14 @@
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
   </head>
   <body>
-    <div class='garage-door'>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-      <div class='garage-panel'></div>
-    </div>
     <section id='garage'>
-      <article id='the-list'>
-      </article>
+      <ul id='the-list'>
+      </ul>
       <div>STORE SOME MORE THINGS IN HERE</div>
       <form id="add-item-to-garage">
-        <input value='name'/>
-        <input value='reason'/>
-        <select>
+        <input id='new-name' type="text" placeholder="item name" class='input'/>
+        <input id='new-reason' type="text" placeholder="reason to store" class='input'/>
+        <select id='new-cleanliness'>
           <option>Sparkling</option>
           <option>Dusty</option>
           <option>Decrepid</option>
@@ -43,6 +32,17 @@
       </article>
     </section>
 
+    <div class='garage-door open'>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+      <div class='garage-panel'></div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./index.js"></script>
   </body>
