@@ -37,6 +37,27 @@ app.get('/api/v1/garage', (request, response) => {
     });
 })
 
+app.post('/api/v1/garage', (request, response) => {
+  const { name, reason, cleanliness } = request.body
+  const newItem = { name, reason, cleanliness }
+
+  if(!name || !reason || !cleanliness){
+    response.status(422).json("[]")
+  } else {
+    database('garage').insert(newItem)
+    .then(()=> {
+      database('garage').select()
+        .then((items) => {
+          response.status(200).json(items);
+        })
+        .catch((error) => {
+          response.status(422)
+          console.error(error)
+        });
+    })
+  }
+})
+
 app.get('/api/v1/garage/:id', (request, response) => {
   const { id } = request.params;
   database('garage').where('id', id).select()
@@ -55,3 +76,5 @@ if(!module.parent) {
     console.log(`Server is running on ${app.get('port')}`);
   })
 }
+
+module.exports = app;
