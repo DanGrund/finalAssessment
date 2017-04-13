@@ -61,14 +61,67 @@ app.post('/api/v1/garage', (request, response) => {
 app.get('/api/v1/garage/:id', (request, response) => {
   const { id } = request.params;
   database('garage').where('id', id).select()
-    .then((urlData) => {
-      response.status(201).json(urlData)
+    .then((item) => {
+      if(item.length<1){
+        response.status(404).send({
+          error: 'ID did not match any existing items'
+        })
+      }else{
+        response.status(201).json(item)
+      }
     })
     .catch((error)=>{
       response.status(422).send({
-        error: 'ID did not match any existing id'
+        error: 'ID did not match any existing item'
       })
     })
+})
+
+app.patch('/api/v1/garage/:id', (request, response) => {
+  const { id } = request.params;
+  const { name, reason, cleanliness } = request.body
+
+  database('garage').where('id', id).select().update({ name, reason, cleanliness })
+    .then(()=> {
+      database('garage').where('id', id).select()
+        .then((item) => {
+          if(item.length<1){
+            response.status(404).send({
+              error: 'ID did not match any existing items in garage'
+            })
+          } else {
+            response.status(200).json(item);
+          }
+        })
+    })
+    .catch((error) => {
+      response.status(422)
+      console.error(error)
+    });
+})
+
+app.delete('/api/v1/garage/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('garage').where('id', id).select()
+  .then((item)=>{
+    if(item.length<1){
+      response.status(404).send({
+        error: 'ID did not match any existing items'
+      })
+    } else {
+      database('garage').where('id', id).delete()
+      .then(()=> {
+        database('garage').select()
+        .then((items) => {
+            response.status(200).json(items);
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+    }
+  })
 })
 
 if(!module.parent) {
