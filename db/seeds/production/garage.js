@@ -5,12 +5,12 @@ exports.seed = function(knex, Promise) {
       knex('garage').insert({
         name: 'baseball',
         reason: 'I like baseball',
-        cleanliness: 'sparkling'
+        cleanliness: 'Sparkling'
       }),
       knex('garage').insert({
         name: 'tennis ball',
         reason: 'I like tennis',
-        cleanliness: 'rancid'
+        cleanliness: 'Decrepid'
       })
     ]);
   });

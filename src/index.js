@@ -10,13 +10,37 @@ const loadItems = () => {
 $('document').ready(loadItems);
 
 const renderItems = (items) => {
+  let total = 0;
+  let sparkling = 0;
+  let dusty = 0;
+  let decrepid = 0;
   $('.item').remove();
   items.forEach(item => {
-    console.log(item)
-    $('#the-list').append(`
-      <li class='item' id=${item.id}>${item.name}</li>`
+    total++;
+    switch(item.cleanliness) {
+      case 'Sparkling':
+        sparkling++;
+        break;
+      case 'Dusty':
+        dusty++;
+        break;
+      case 'Decrepid':
+        decrepid++;
+        break;
+      default:
+        break;
+    }
+
+    $('#the-list').prepend(`
+      <li class='item ${item.cleanliness}' id=${item.id}>
+        ${item.name}
+      </li>`
     )
   })
+  $('#total').text(`There are ${total} things in your garage`)
+  $('#sparkle-total').text(`${sparkling} sparkling`)
+  $('#dusty-total').text(`${dusty} dusty`)
+  $('#decrepid-total').text(`${decrepid} decrepid`)
 }
 
 const addItem = (itemAttributes) => {
@@ -24,6 +48,29 @@ const addItem = (itemAttributes) => {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(itemAttributes)
+  })
+    .then(res => res.json())
+    .then(items => {
+      renderItems(items);
+    })
+}
+
+const updateItem = (id, itemAttributes) => {
+  fetch(`/api/v1/garage/${id}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'PATCH',
+    body: JSON.stringify(itemAttributes)
+  })
+    .then(res => res.json())
+    .then(items => {
+      renderItems(items);
+    })
+}
+
+const deleteItem = (id) => {
+  fetch(`/api/v1/garage/${id}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'Delete'
   })
     .then(res => res.json())
     .then(items => {
@@ -39,13 +86,53 @@ $('#put-it-in').on('click', (e)=>{
   addItem({name, reason, cleanliness})
 })
 
-//ADD ON CLICK FUNCTION TO EACH ITEM
+$('#the-list').on('click', '.item', (e) => {
+  fetch(`/api/v1/garage/${e.target.id}`, {
+    method: 'GET'
+  })
+    .then(res => res.json())
+    .then(item => showItemDetails(item));
+})
 
-//ADD PATCH REQUEST TO INDIVIDUAL ITEM DIV
+const showItemDetails = (item) => {
+  $('.selected-item').remove();
+  $('body').append(
+    `<div class='selected-item' id=${item[0].id}>
+      <p>NAME: <span id="selected-name">${item[0].name}</span></p>
+      <p>REASON: <span id="selected-reason">${item[0].reason}</span></p>
+      <select id='update-cleanliness'>
+        <option value="Sparkling">Sparkling</option>
+        <option value="Dusty">Dusty</option>
+        <option value="Decrepid">Decrepid</option>
+      </select>
+      <div id='controls'>
+        <button id='update-item'>update</button>
+        <button id='delete-item'>delete</button>
+        <button id='hide-item'>hide</button>
+      </div>
+    </div>`
+  )
+  $("#update-cleanliness").val(`${item[0].cleanliness}`);
+}
 
-//ADD COUNTERS FOR TOTAL, AND NUMBER OF EACH KIND
+$('body').on('click', '#update-item', function() {
+  const id = $(this).closest('.selected-item').attr('id')
+  const name = $('#selected-name').text()
+  const reason = $('#selected-reason').text()
+  const cleanliness = $('#update-cleanliness').val()
+  updateItem(id, {name, reason, cleanliness})
+  $('.selected-item').remove();
+})
 
-//ADD SORT FUNCTIONS
+$('body').on('click', '#delete-item', function() {
+  const id = $(this).closest('.selected-item').attr('id')
+  deleteItem(id)
+  $('.selected-item').remove();
+})
+
+$('body').on('click', '#hide-item', ()=> {
+  $('.selected-item').remove();
+})
 
 $('#open-close').on('click', ()=>{
   $('.garage-door').toggleClass('open')

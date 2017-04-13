@@ -90,7 +90,10 @@ app.patch('/api/v1/garage/:id', (request, response) => {
               error: 'ID did not match any existing items in garage'
             })
           } else {
-            response.status(200).json(item);
+            database('garage').select()
+              .then((contents) => {
+                response.status(200).json(contents);
+              })
           }
         })
     })
