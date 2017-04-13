@@ -26,6 +26,30 @@ app.get('/', (request, response) => {
   })
 })
 
+app.get('/api/v1/garage', (request, response) => {
+  database('garage').select()
+    .then((contents) => {
+      response.status(200).json(contents);
+    })
+    .catch(function(error) {
+      response.status(400).json(error)
+      console.log(error)
+    });
+})
+
+app.get('/api/v1/garage/:id', (request, response) => {
+  const { id } = request.params;
+  database('garage').where('id', id).select()
+    .then((urlData) => {
+      response.status(201).json(urlData)
+    })
+    .catch((error)=>{
+      response.status(422).send({
+        error: 'ID did not match any existing id'
+      })
+    })
+})
+
 if(!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`Server is running on ${app.get('port')}`);
