@@ -1,3 +1,4 @@
+let currentItems;
 
 const loadItems = () => {
   fetch('/api/v1/garage', {
@@ -10,6 +11,7 @@ const loadItems = () => {
 $('document').ready(loadItems);
 
 const renderItems = (items) => {
+  currentItems = items;
   let total = 0;
   let sparkling = 0;
   let dusty = 0;
@@ -84,6 +86,7 @@ $('#put-it-in').on('click', (e)=>{
   const reason = $('#new-reason').val()
   const cleanliness = $('#new-cleanliness').val()
   addItem({name, reason, cleanliness})
+  $('input').val('')
 })
 
 $('#the-list').on('click', '.item', (e) => {
@@ -98,9 +101,9 @@ const showItemDetails = (item) => {
   $('.selected-item').remove();
   $('body').append(
     `<div class='selected-item' id=${item[0].id}>
-      <p>NAME: <span id="selected-name">${item[0].name}</span></p>
-      <p>REASON: <span id="selected-reason">${item[0].reason}</span></p>
-      <select id='update-cleanliness'>
+      NAME: <span class="dont-close" id="selected-name">${item[0].name}</span>
+      REASON: <span class="dont-close" id="selected-reason">${item[0].reason}</span>
+      <select class="dont-close" id='update-cleanliness'>
         <option value="Sparkling">Sparkling</option>
         <option value="Dusty">Dusty</option>
         <option value="Decrepid">Decrepid</option>
@@ -134,6 +137,31 @@ $('body').on('click', '#hide-item', ()=> {
   $('.selected-item').remove();
 })
 
+$('body').on('click', (e)=>{
+  if(e.target.className !=='selected-item' && e.target.className!=='dont-close') {
+    $('.selected-item').remove();
+  }
+})
+
 $('#open-close').on('click', ()=>{
   $('.garage-door').toggleClass('open')
 })
+
+$('#sort-list').on('click', ()=>{
+  if ($('#sort-list').hasClass('up')) {
+    sortDown()
+  } else {
+    sortUp()
+  }
+  $('#sort-list').toggleClass('up')
+})
+
+const sortUp = () => {
+  newOrder = currentItems.sort((a,b)=>{return a.name > b.name })
+  renderItems(newOrder)
+}
+
+const sortDown = () => {
+  newOrder = currentItems.sort((a,b)=>{return a.name < b.name })
+  renderItems(newOrder)
+}
