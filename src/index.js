@@ -1,3 +1,18 @@
 $('#open-close').on('click', ()=>{
   $('.garage-door').toggleClass('open')
 })
+
+
+//GET ALL THE THINGS
+
+//MAP THEM THINGS TO THE GARAGE
+
+//ADD ON CLICK FUNCTION TO EACH ITEM
+
+//ADD PATCH REQUEST TO INDIVIDUAL ITEM DIV
+
+//ADD COUNTERS FOR TOTAL, AND NUMBER OF EACH KIND
+
+//ADD SORT FUNCTIONS
+
+//
