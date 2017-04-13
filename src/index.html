@@ -3,8 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>Garage List</title>
+    <link rel="stylesheet" type="text/css" href="styles/reset.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
   </head>
   <body>
-    hi testing hey
+    <div class='garage-door open'>
+    </div>
+    <section id='garage'>
+      <article id='the-list'>
+      </article>
+      <div>STORE SOME MORE THINGS IN HERE</div>
+      <form id="add-item-to-garage">
+        <input value='name'/>
+        <input value='reason'/>
+        <select>
+          <option>Sparkling</option>
+          <option>Dusty</option>
+          <option>Decrepid</option>
+        </select>
+        <button id="put-it-in">put it in</button>
+      </form>
+    </section>
+    <section id='remote-control'>
+      <button id='open-close'>open/close</button>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./index.js"></script>
   </body>
 </html>

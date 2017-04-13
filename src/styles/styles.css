@@ -1,0 +1,47 @@
+body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#garage {
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 1px solid black;
+  width: 80vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.garage-door {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 80vw;
+  height: 90vh;
+  background-color: rgba(255,55,16, .5);
+}
+
+#remote-control {
+  margin: auto;
+  border: 1px solid black;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+}
+
+.open {
+  display: none;
+}
+
+#add-item-to-garage {
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
