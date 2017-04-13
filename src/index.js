@@ -165,3 +165,5 @@ const sortDown = () => {
   newOrder = currentItems.sort((a,b)=>{return a.name < b.name })
   renderItems(newOrder)
 }
+
+// module.exports = {sortUp, sortDown}

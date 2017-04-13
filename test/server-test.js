@@ -135,13 +135,13 @@ describe('Server', () => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body).to.be.a('array');
-        expect(res.body).to.have.length(1);
-        expect(res.body[0]).to.have.property('name');
-        expect(res.body[0].name).to.equal('basketball');
-        expect(res.body[0]).to.have.property('reason');
-        expect(res.body[0].reason).to.equal('I like basketball');
-        expect(res.body[0]).to.have.property('cleanliness');
-        expect(res.body[0].cleanliness).to.equal('dusty');
+        expect(res.body).to.have.length(2);
+        expect(res.body[1]).to.have.property('name');
+        expect(res.body[1].name).to.equal('basketball');
+        expect(res.body[1]).to.have.property('reason');
+        expect(res.body[1].reason).to.equal('I like basketball');
+        expect(res.body[1]).to.have.property('cleanliness');
+        expect(res.body[1].cleanliness).to.equal('dusty');
         done()
       })
     })
