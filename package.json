@@ -2,10 +2,26 @@
   "name": "finalassessment",
   "version": "1.0.0",
   "description": "an idea box",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha ./test/**.js || true",
+    "start": "node server.js"
   },
   "author": "Dan Grund <magic.mike@gmail.com> (http://www.github.com/dangrund)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "express-cors": "0.0.3",
+    "fs": "0.0.1-security",
+    "jquery": "^3.2.1",
+    "knex": "^0.12.9",
+    "pg": "^6.1.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0"
+  }
 }
